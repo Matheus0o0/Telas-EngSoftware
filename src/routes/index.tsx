@@ -7,6 +7,7 @@ import TelaPrincipal from '../screens/TelaPrincipal';
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/" element={<LoginUsuario />} />
       <Route path="/CadastroUsuario" element={<CadastroUsuario />} />
       <Route path="/LoginUsuario" element={<LoginUsuario />} />
       <Route path="/relatorio" element={<Relatorio />} />
@@ -15,4 +16,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;""
+export default AppRoutes;
