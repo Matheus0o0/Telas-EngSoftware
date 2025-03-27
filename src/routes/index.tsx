@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import CadastroUsuario from '../components/CadastroUsuario'; 
-import LoginUsuario from '../components/LoginUsuario'; 
-import Relatorio from '../components/Relatorio'; 
-import TelaPrincipal from '../components/TelaPrincipal'; 
+import CadastroUsuario from '../screens/auth/CadastroUsuario/index.tsx'; 
+import LoginUsuario from '../screens/auth/LoginUsuario/index.tsx'; 
+import Relatorio from '../screens/Relatorio'; 
+import TelaPrincipal from '../screens/TelaPrincipal'; 
 
 const AppRoutes = () => {
   return (
@@ -15,4 +15,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default AppRoutes;""

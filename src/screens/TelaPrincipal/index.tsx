@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, Eye, Download, Trash, ArrowLeft } from 'lucide-react';
-import '../../App.css';
+import '../../styles/globalColors.css';
 import './style.css';
 
 function CatalogoRecursos() {

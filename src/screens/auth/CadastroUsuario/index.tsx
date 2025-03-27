@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../../App.css";
+import '../../../styles/globalColors.css'; // Importando o CSS global
 
 function CadastroUsuario() {
   // Estados para cada campo do formulário
