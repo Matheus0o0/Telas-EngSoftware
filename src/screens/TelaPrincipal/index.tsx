@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Search, Plus, Eye, Download, Trash, ArrowLeft } from 'lucide-react';
 import '../../styles/globalColors.css';
 import './style.css';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+
+
 
 function CatalogoRecursos() {
   // Estado para a lista de recursos
@@ -108,245 +112,251 @@ function CatalogoRecursos() {
   }, [mostrarOverlay]);
 
   return (
-    <div className="min-vh-100 bg-light p-4">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-12 col-lg-10">
-            <div className="card shadow">
-              <div className="card-body">
-                {/* Título */}
-                <h1 className="h4 mb-4">CATÁLOGO DE RECURSOS</h1>
+    <div className="app-container">
+      <Header />
+      <main className="app-content">
+        <div className="min-vh-100 bg-light p-4">
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-12 col-lg-10">
+                <div className="card shadow">
+                  <div className="card-body">
+                    {/* Título */}
+                    <h1 className="h4 mb-4">CATÁLOGO DE RECURSOS</h1>
 
-                {/* Barra de Pesquisa */}
-                <div className="mb-4">
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Procure por..."
-                    />
-                    <button className="btn btn-primary" type="button">
-                      <Search size={18} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Lista de Recursos */}
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>NOME</th>
-                        <th>CATEGORIA</th>
-                        <th>QUANTIDADE TOTAL</th>
-                        <th>QUANTIDADE EM USO</th>
-                        <th>AÇÕES</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recursos.map((recurso) => (
-                        <tr key={recurso.id}>
-                          <td>{recurso.nome}</td>
-                          <td>{recurso.categoria}</td>
-                          <td>{recurso.quantidadeTotal}</td>
-                          <td>
-                            {recurso.quantidadeEmUso}/{recurso.quantidadeTotal}
-                          </td>
-                          <td>
-                            <button
-                              className="btn btn-danger btn-sm"
-                              onClick={() => removerRecurso(recurso.id)}
-                            >
-                              <Trash size={16} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* Botões e Links */}
-                <div className="mt-4 d-flex justify-content-between align-items-center">
-                  <button
-                    className="btn btn-primary d-flex align-items-center gap-2"
-                    onClick={abrirOverlay}
-                  >
-                    <Plus size={18} />
-                    ADICIONAR RECURSO
-                  </button>
-
-                  <a href="#" className="text-primary text-decoration-none">
-                    <Eye size={18} className="me-2" />
-                    VISUALIZAR MAIS REGISTROS
-                  </a>
-
-                  <button className="btn btn-outline-primary d-flex align-items-center gap-2">
-                    <Download size={18} />
-                    EXPORTAR RELATÓRIO DE RECURSOS
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Overlay de Cadastro de Recurso */}
-      {mostrarOverlay && (
-        <div className="overlay">
-          <div className="overlay-content">
-            <div className="card shadow">
-              <div className="card-body">
-                {/* Header */}
-                <div className="d-flex align-items-center gap-3 mb-4">
-                  <button
-                    className="btn btn-link p-0 text-dark"
-                    onClick={fecharOverlay}
-                  >
-                    <ArrowLeft size={24} />
-                  </button>
-                  <h1 className="h4 mb-0">CADASTRO DE RECURSO</h1>
-                </div>
-
-                {/* Formulário */}
-                <form onSubmit={adicionarRecurso}>
-                  {/* Nome */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">NOME</label>
-                    <input
-                      type="text"
-                      placeholder="Digite o nome do recurso"
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      className="form-control"
-                      required
-                    />
-                  </div>
-
-                  {/* Descrição */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">DESCRIÇÃO</label>
-                    <textarea
-                      placeholder="Digite a descrição do recurso"
-                      value={descricao}
-                      onChange={(e) => setDescricao(e.target.value)}
-                      className="form-control"
-                      rows={3}
-                    />
-                  </div>
-
-                  {/* Tipo de Uso */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">TIPO DE USO</label>
-                    <select
-                      className="form-select"
-                      value={tipoUso}
-                      onChange={(e) => setTipoUso(e.target.value)}
-                      required
-                    >
-                      <option value="">Selecione um tipo de uso</option>
-                      {tiposUso.map((tipo, index) => (
-                        <option key={index} value={tipo}>
-                          {tipo}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Reutilizável */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">REUTILIZÁVEL</label>
-                    <div>
-                      <div className="form-check form-check-inline">
+                    {/* Barra de Pesquisa */}
+                    <div className="mb-4">
+                      <div className="input-group">
                         <input
-                          type="radio"
-                          className="form-check-input"
-                          id="reutilizavelSim"
-                          value="true"
-                          checked={reutilizavel}
-                          onChange={() => setReutilizavel(true)}
+                          type="text"
+                          className="form-control"
+                          placeholder="Procure por..."
                         />
-                        <label className="form-check-label" htmlFor="reutilizavelSim">Sim</label>
-                      </div>
-                      <div className="form-check form-check-inline">
-                        <input
-                          type="radio"
-                          className="form-check-input"
-                          id="reutilizavelNao"
-                          value="false"
-                          checked={!reutilizavel}
-                          onChange={() => setReutilizavel(false)}
-                        />
-                        <label className="form-check-label" htmlFor="reutilizavelNao">Não</label>
+                        <button className="btn btn-primary" type="button">
+                          <Search size={18} />
+                        </button>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Adicionar Imagens */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">ADICIONAR IMAGENS</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      multiple
-                      onChange={handleImageUpload}
-                    />
-                  </div>
+                    {/* Lista de Recursos */}
+                    <div className="table-responsive">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>NOME</th>
+                            <th>CATEGORIA</th>
+                            <th>QUANTIDADE TOTAL</th>
+                            <th>QUANTIDADE EM USO</th>
+                            <th>AÇÕES</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {recursos.map((recurso) => (
+                            <tr key={recurso.id}>
+                              <td>{recurso.nome}</td>
+                              <td>{recurso.categoria}</td>
+                              <td>{recurso.quantidadeTotal}</td>
+                              <td>
+                                {recurso.quantidadeEmUso}/{recurso.quantidadeTotal}
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger btn-sm"
+                                  onClick={() => removerRecurso(recurso.id)}
+                                >
+                                  <Trash size={16} />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
 
-                  {/* Categoria */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">CATEGORIA</label>
-                    <select
-                      className="form-select"
-                      value={categoria}
-                      onChange={(e) => setCategoria(e.target.value)}
-                      required
-                    >
-                      <option value="">Selecione uma categoria</option>
-                      {categorias.map((cat, index) => (
-                        <option key={index} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    {/* Botões e Links */}
+                    <div className="mt-4 d-flex justify-content-between align-items-center">
+                      <button
+                        className="btn btn-primary d-flex align-items-center gap-2"
+                        onClick={abrirOverlay}
+                      >
+                        <Plus size={18} />
+                        ADICIONAR RECURSO
+                      </button>
 
-                  {/* Quantidade */}
-                  <div className="mb-3">
-                    <label className="form-label small text-secondary">QUANTIDADE</label>
-                    <input
-                      type="number"
-                      placeholder="Digite a quantidade"
-                      value={quantidade}
-                      onChange={(e) => setQuantidade(Number(e.target.value))}
-                      className="form-control"
-                      required
-                    />
-                  </div>
+                      <a href="#" className="text-primary text-decoration-none">
+                        <Eye size={18} className="me-2" />
+                        VISUALIZAR MAIS REGISTROS
+                      </a>
 
-                  {/* Botões */}
-                  <div className="mt-4 d-flex justify-content-end gap-2">
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={fecharOverlay}
-                    >
-                      CANCELAR
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                    >
-                      SALVAR
-                    </button>
+                      <button className="btn btn-outline-primary d-flex align-items-center gap-2">
+                        <Download size={18} />
+                        EXPORTAR RELATÓRIO DE RECURSOS
+                      </button>
+                    </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Overlay de Cadastro de Recurso */}
+          {mostrarOverlay && (
+            <div className="overlay">
+              <div className="overlay-content">
+                <div className="card shadow">
+                  <div className="card-body">
+                    {/* Header */}
+                    <div className="d-flex align-items-center gap-3 mb-4">
+                      <button
+                        className="btn btn-link p-0 text-dark"
+                        onClick={fecharOverlay}
+                      >
+                        <ArrowLeft size={24} />
+                      </button>
+                      <h1 className="h4 mb-0">CADASTRO DE RECURSO</h1>
+                    </div>
+
+                    {/* Formulário */}
+                    <form onSubmit={adicionarRecurso}>
+                      {/* Nome */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">NOME</label>
+                        <input
+                          type="text"
+                          placeholder="Digite o nome do recurso"
+                          value={nome}
+                          onChange={(e) => setNome(e.target.value)}
+                          className="form-control"
+                          required
+                        />
+                      </div>
+
+                      {/* Descrição */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">DESCRIÇÃO</label>
+                        <textarea
+                          placeholder="Digite a descrição do recurso"
+                          value={descricao}
+                          onChange={(e) => setDescricao(e.target.value)}
+                          className="form-control"
+                          rows={3}
+                        />
+                      </div>
+
+                      {/* Tipo de Uso */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">TIPO DE USO</label>
+                        <select
+                          className="form-select"
+                          value={tipoUso}
+                          onChange={(e) => setTipoUso(e.target.value)}
+                          required
+                        >
+                          <option value="">Selecione um tipo de uso</option>
+                          {tiposUso.map((tipo, index) => (
+                            <option key={index} value={tipo}>
+                              {tipo}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Reutilizável */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">REUTILIZÁVEL</label>
+                        <div>
+                          <div className="form-check form-check-inline">
+                            <input
+                              type="radio"
+                              className="form-check-input"
+                              id="reutilizavelSim"
+                              value="true"
+                              checked={reutilizavel}
+                              onChange={() => setReutilizavel(true)}
+                            />
+                            <label className="form-check-label" htmlFor="reutilizavelSim">Sim</label>
+                          </div>
+                          <div className="form-check form-check-inline">
+                            <input
+                              type="radio"
+                              className="form-check-input"
+                              id="reutilizavelNao"
+                              value="false"
+                              checked={!reutilizavel}
+                              onChange={() => setReutilizavel(false)}
+                            />
+                            <label className="form-check-label" htmlFor="reutilizavelNao">Não</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Adicionar Imagens */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">ADICIONAR IMAGENS</label>
+                        <input
+                          type="file"
+                          className="form-control"
+                          multiple
+                          onChange={handleImageUpload}
+                        />
+                      </div>
+
+                      {/* Categoria */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">CATEGORIA</label>
+                        <select
+                          className="form-select"
+                          value={categoria}
+                          onChange={(e) => setCategoria(e.target.value)}
+                          required
+                        >
+                          <option value="">Selecione uma categoria</option>
+                          {categorias.map((cat, index) => (
+                            <option key={index} value={cat}>
+                              {cat}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Quantidade */}
+                      <div className="mb-3">
+                        <label className="form-label small text-secondary">QUANTIDADE</label>
+                        <input
+                          type="number"
+                          placeholder="Digite a quantidade"
+                          value={quantidade}
+                          onChange={(e) => setQuantidade(Number(e.target.value))}
+                          className="form-control"
+                          required
+                        />
+                      </div>
+
+                      {/* Botões */}
+                      <div className="mt-4 d-flex justify-content-end gap-2">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={fecharOverlay}
+                        >
+                          CANCELAR
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                        >
+                          SALVAR
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </main>
+      <Footer />
     </div>
   );
 }
