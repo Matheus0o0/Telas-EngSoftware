@@ -3,7 +3,6 @@ import { Search, Plus, Eye, Download, Trash, ArrowLeft } from 'lucide-react';
 import '../../styles/globalColors.css';
 import './style.css';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 
 
 
@@ -114,8 +113,14 @@ function CatalogoRecursos() {
   return (
     <div className="app-container">
       <Header />
-      <main className="app-content">
-        <div className="min-vh-100 bg-light p-4">
+      <main className="app-content" style={{ 
+        marginLeft: '250px',
+        marginTop: '60px', 
+        minHeight: 'calc(100vh - 60px)',
+        padding: '2rem',
+        position: 'relative'
+      }}>
+        <div className="bg-light p-4 rounded shadow-sm">
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-12 col-lg-10">
@@ -356,7 +361,6 @@ function CatalogoRecursos() {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
