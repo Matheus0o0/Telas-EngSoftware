@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LayoutDashboard, FileText, UserPlus, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, UserPlus, LogOut, Settings } from 'lucide-react';
 import './styles.css';
 
 const Header = () => {
@@ -33,6 +33,12 @@ const Header = () => {
                 <Link to="/CadastroUsuario" className="nav-link">
                   <UserPlus className="nav-icon" />
                   <span>Cadastro</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/configuracoes" className="nav-link">
+                  <Settings className="nav-icon" />
+                  <span>Configurações</span>
                 </Link>
               </li>
             </ul>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../../../styles/globalColors.css';
-import Header from '../../../components/Header';
+import '../../styles/globalColors.css';
+import Header from '../../components/sideBar';
 // Remove Footer import
 
 function CadastroUsuario() {

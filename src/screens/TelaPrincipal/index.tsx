@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Plus, Eye, Download, Trash, ArrowLeft } from 'lucide-react';
 import '../../styles/globalColors.css';
 import './style.css';
-import Header from '../../components/Header';
+import Header from '../../components/sideBar';
 
 
 

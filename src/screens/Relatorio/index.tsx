@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Printer } from 'lucide-react';
 import axios from 'axios';
 import '../../styles/globalColors.css';
-import Header from '../../components/Header';
+import Header from '../../components/sideBar';
 
 
 // Definindo a interface para os dados do relatório
