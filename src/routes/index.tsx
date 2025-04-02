@@ -6,6 +6,9 @@ import Relatorio from '../screens/Relatorio';
 import TelaPrincipal from '../screens/TelaPrincipal'; 
 import Configuracoes from '../screens/Configuracoes';
 import Historico from '../screens/Historico';
+import RegistroEmprestimo from '../screens/RegistroEmprestimo';
+import RegistroDevolucao from '../screens/RegistroDevolucao';
+import RastreamentoRecursos from '../screens/RastreamentoRecursos';
 
 const AppRoutes = () => {
   return (
@@ -18,6 +21,12 @@ const AppRoutes = () => {
       <Route path="/TelaPrincipal" element={<TelaPrincipal />} />
       <Route path="/configuracoes" element={<Configuracoes />} />
       <Route path="/historico" element={<Historico />} />
+      <Route path="/registroEmprestimo" element={<RegistroEmprestimo />} />
+      <Route path="/registroDevolucao/:id" element={<RegistroDevolucao />} />
+      <Route path="/registroDevolucao" element={<RegistroDevolucao />} />
+      <Route path="/RegistroDevolucao" element={<RegistroDevolucao />} />
+      <Route path="/RegistroDevolução" element={<RegistroDevolucao />} />
+      <Route path="/rastreamentoRecursos" element={<RastreamentoRecursos />} />
     </Routes>
   );
 };

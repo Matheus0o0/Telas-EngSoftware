@@ -15,8 +15,11 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
-  Info
+  Info,
+  Plus,
+  RefreshCw
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/globalColors.css';
 import Header from '../../components/sideBar';
 import './styles.css';
@@ -35,6 +38,9 @@ interface HistoricoRegistro {
 }
 
 function Historico() {
+  const navigate = useNavigate();
+  
+  
   // Estados para filtros
   const [filtroUsuario, setFiltroUsuario] = useState<string>('');
   const [filtroRecurso, setFiltroRecurso] = useState<string>('');
@@ -43,6 +49,7 @@ function Historico() {
   const [filtroDataFim, setFiltroDataFim] = useState<string>('');
   const [filtroStatus, setFiltroStatus] = useState<string>('');
   const [mostrarFiltros, setMostrarFiltros] = useState<boolean>(false);
+  const [pesquisaRapida, setPesquisaRapida] = useState<string>('');
   
   // Estado para paginação
   const [paginaAtual, setPaginaAtual] = useState<number>(1);
@@ -57,6 +64,14 @@ function Historico() {
   // Dados de exemplo para o histórico (simulação de dados que viriam do backend)
   const [registros, setRegistros] = useState<HistoricoRegistro[]>([]);
 
+  const navegarParaRegistroEmprestimo = () => {
+    navigate('/registroEmprestimo');
+  };
+  
+  // Função para navegar para a página de registro de devolução
+  const navegarParaRegistroDevolucao = (id: number) => {
+    navigate(`/registroDevolucao/${id}`);
+  };
   // Simulação de chamada à API
   useEffect(() => {
     // Simulando um tempo de carregamento
@@ -73,7 +88,7 @@ function Historico() {
           categoria: 'Equipamento',
           dataRetirada: '2024-05-10',
           horaRetirada: '09:30',
-          dataPrevista: '2024-05-12',
+          dataPrevista: '2024-05-17',
           dataDevolucao: '2024-05-12',
           status: 'devolvido'
         },
@@ -116,7 +131,7 @@ function Historico() {
           recurso: 'Caixa de Som',
           categoria: 'Equipamento',
           dataRetirada: '2024-05-20',
-          horaRetirada: '13:30',
+          horaRetirada: '13:20',
           dataPrevista: '2024-05-27',
           dataDevolucao: null,
           status: 'em_uso'
@@ -124,87 +139,31 @@ function Historico() {
         {
           id: 6,
           usuario: 'Fernanda Lima',
-          recurso: 'Projetor Laser',
+          recurso: 'Notebook Dell',
           categoria: 'Equipamento',
-          dataRetirada: '2024-05-08',
-          horaRetirada: '15:20',
-          dataPrevista: '2024-05-10',
-          dataDevolucao: '2024-05-09',
-          status: 'devolvido'
+          dataRetirada: '2024-04-25',
+          horaRetirada: '09:00',
+          dataPrevista: '2024-05-02',
+          dataDevolucao: null,
+          status: 'atrasado'
         },
         {
           id: 7,
-          usuario: 'Paulo Souza',
-          recurso: 'Auditório',
+          usuario: 'Pedro Costa',
+          recurso: 'Sala de Reuniões',
           categoria: 'Área',
-          dataRetirada: '2024-05-12',
-          horaRetirada: '09:00',
-          dataPrevista: '2024-05-12',
-          dataDevolucao: '2024-05-12',
-          status: 'devolvido'
-        },
-        {
-          id: 8,
-          usuario: 'Juliana Costa',
-          recurso: 'Cabo HDMI',
-          categoria: 'Equipamento',
-          dataRetirada: '2024-04-30',
-          horaRetirada: '11:45',
-          dataPrevista: '2024-05-07',
-          dataDevolucao: null,
-          status: 'atrasado'
-        },
-        {
-          id: 9,
-          usuario: 'Marcelo Santos',
-          recurso: 'Câmera',
-          categoria: 'Equipamento',
-          dataRetirada: '2024-05-17',
-          horaRetirada: '14:30',
-          dataPrevista: '2024-05-24',
-          dataDevolucao: null,
-          status: 'em_uso'
-        },
-        {
-          id: 10,
-          usuario: 'Camila Ferreira',
-          recurso: 'Caixa de Som',
-          categoria: 'Equipamento',
-          dataRetirada: '2024-05-03',
-          horaRetirada: '10:00',
-          dataPrevista: '2024-05-10',
-          dataDevolucao: '2024-05-11',
-          status: 'devolvido'
-        },
-        {
-          id: 11,
-          usuario: 'Ricardo Oliveira',
-          recurso: 'Projetor Laser',
-          categoria: 'Equipamento',
-          dataRetirada: '2024-05-01',
-          horaRetirada: '08:30',
-          dataPrevista: '2024-05-08',
-          dataDevolucao: null,
-          status: 'atrasado'
-        },
-        {
-          id: 12,
-          usuario: 'Luciana Silva',
-          recurso: 'Auditório',
-          categoria: 'Área',
-          dataRetirada: '2024-05-19',
-          horaRetirada: '13:00',
-          dataPrevista: '2024-05-19',
-          dataDevolucao: '2024-05-19',
+          dataRetirada: '2024-05-22',
+          horaRetirada: '15:30',
+          dataPrevista: '2024-05-22',
+          dataDevolucao: '2024-05-22',
           status: 'devolvido'
         }
       ];
       
       setRegistros(dadosMock);
       setCarregando(false);
-    }, 800); // Simulando um delay de 800ms
+    }, 1000);
     
-    // Limpeza do timeout
     return () => clearTimeout(timeoutId);
   }, []);
 
@@ -354,7 +313,31 @@ function Historico() {
           
           <div className="card shadow">
             <div className="card-body">
-              <h1 className="h4 mb-4">HISTÓRICO E RASTREAMENTO DE RECURSOS</h1>
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h1 className="h4 mb-0">HISTÓRICO DE RECURSOS</h1>
+                
+                <div className="d-flex gap-2">
+                  <button 
+                    className="btn btn-outline-primary d-flex align-items-center gap-2"
+                    onClick={() => navigate('/RastreamentoRecursos')}
+                  >
+                    <RefreshCw size={18} />
+                    RASTREAMENTO ATUAL
+                  </button>
+                  
+                  <button 
+                    className="btn btn-primary d-flex align-items-center gap-2"
+                    onClick={navegarParaRegistroEmprestimo}
+                  >
+                    <Plus size={18} />
+                    NOVO EMPRÉSTIMO
+                  </button>
+                </div>
+              </div>
+              
+              <p className="text-muted mb-4">
+                Visualize o histórico completo de todos os empréstimos de recursos. Para verificar apenas os recursos em uso atualmente, acesse a página de Rastreamento.
+              </p>
               
               {/* Barra de pesquisa e botões */}
               <div className="d-flex justify-content-between align-items-center mb-4">
@@ -366,7 +349,7 @@ function Historico() {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Pesquisar por recurso ou usuário..."
+                      placeholder="Pesquisar por usuário, recurso ou usuário..."
                       value={filtroRecurso || filtroUsuario}
                       onChange={(e) => {
                         // Decide se é pesquisa por recurso ou usuário
@@ -554,96 +537,9 @@ function Historico() {
                   </div>
                 </div>
               ) : (
-                <>
-                  {/* Tabela de registros */}
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead className="table-light">
-                        <tr>
-                          <th>ID</th>
-                          <th>Usuário</th>
-                          <th>Recurso</th>
-                          <th>Categoria</th>
-                          <th>Data Retirada</th>
-                          <th>Data Prevista</th>
-                          <th>Data Devolução</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {registrosPaginados.length > 0 ? (
-                          registrosPaginados.map((registro) => (
-                            <tr key={registro.id} className={registro.status === 'atrasado' ? 'table-danger' : ''}>
-                              <td>{registro.id}</td>
-                              <td>{registro.usuario}</td>
-                              <td>{registro.recurso}</td>
-                              <td>{registro.categoria}</td>
-                              <td>{registro.dataRetirada} {registro.horaRetirada}</td>
-                              <td>{registro.dataPrevista}</td>
-                              <td>{registro.dataDevolucao || '-'}</td>
-                              <td>
-                                <span className={`status-badge status-${registro.status}`}>
-                                  {renderizarIconeStatus(registro.status)}
-                                  <span className="ms-1">{renderizarTextoStatus(registro.status)}</span>
-                                </span>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={8} className="text-center py-4">
-                              Nenhum registro encontrado com os filtros aplicados.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                  
-                  {/* Paginação */}
-                  {registrosFiltrados.length > 0 && (
-                    <div className="d-flex justify-content-between align-items-center mt-4">
-                      <div className="text-muted small">
-                        Mostrando {(paginaAtual - 1) * itensPorPagina + 1} a {Math.min(paginaAtual * itensPorPagina, registrosFiltrados.length)} de {registrosFiltrados.length} registros
-                      </div>
-                      
-                      <nav aria-label="Navegação de páginas">
-                        <ul className="pagination pagination-sm mb-0">
-                          <li className={`page-item ${paginaAtual === 1 ? 'disabled' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => setPaginaAtual(paginaAtual - 1)}
-                              disabled={paginaAtual === 1}
-                            >
-                              <ChevronLeft size={16} />
-                            </button>
-                          </li>
-                          
-                          {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
-                            <li key={pagina} className={`page-item ${pagina === paginaAtual ? 'active' : ''}`}>
-                              <button 
-                                className="page-link" 
-                                onClick={() => setPaginaAtual(pagina)}
-                              >
-                                {pagina}
-                              </button>
-                            </li>
-                          ))}
-                          
-                          <li className={`page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => setPaginaAtual(paginaAtual + 1)}
-                              disabled={paginaAtual === totalPaginas}
-                            >
-                              <ChevronRight size={16} />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                  )}
-                </>
+                <div className="text-center py-4">
+                  Nenhum registro encontrado com os filtros aplicados.
+                </div>
               )}
             </div>
           </div>
