@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LayoutDashboard, FileText, UserPlus, LogOut, Settings, History } from 'lucide-react';
+import { Home, FileText, UserPlus, LogOut, Settings, History, Package, PlusCircle } from 'lucide-react';
 import './styles.css';
 
 const Header = () => {
@@ -19,8 +19,20 @@ const Header = () => {
             <ul className="nav-list">
               <li>
                 <Link to="/TelaPrincipal" className="nav-link">
-                  <LayoutDashboard className="nav-icon" />
-                  <span>Dashboard</span>
+                  <Home className="nav-icon" />
+                  <span>Tela Inicial</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/cadastroRecursos" className="nav-link">
+                  <PlusCircle className="nav-icon" />
+                  <span>Cadastrar Recursos</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/rastreamentoRecursos" className="nav-link">
+                  <Package className="nav-icon" />
+                  <span>Recursos</span>
                 </Link>
               </li>
               <li>
@@ -38,7 +50,7 @@ const Header = () => {
               <li>
                 <Link to="/CadastroUsuario" className="nav-link">
                   <UserPlus className="nav-icon" />
-                  <span>Cadastro</span>
+                  <span>Cadastro Usuário</span>
                 </Link>
               </li>
               <li>
@@ -50,20 +62,19 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* Logout Button (Icon Only) */}
+          {/* Logout Button */}
           <div className="logout-section">
-            <Link to="/LoginUsuario">
-              <button className="logout-button" title="Sair">
-                <LogOut className="nav-icon" />
-              </button>
+            <Link to="/" className="logout-button">
+              <LogOut className="nav-icon" />
+              <span>Sair</span>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Top Title Bar */}
+      {/* Top Title Bar - Removido o título fixo */}
       <div className="top-title-bar">
-        <h2 className="page-title">Sistema de gerenciamento de insumos</h2>
+        {/* Barra superior sem título fixo */}
       </div>
     </>
   );

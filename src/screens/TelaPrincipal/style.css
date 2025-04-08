@@ -49,18 +49,6 @@
     cursor: pointer;
   }
   
-  .overlay-content .btn-danger {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-  }
-  
-  .overlay-content .btn-primary {
-    background-color: #007bff;
-    color: white;
-    border: none;
-  }
-  
   /* Estilos para o botão de fechar */
   .overlay-content .btn-link {
     background: none;
@@ -108,6 +96,93 @@
 
 .bg-warning-light {
   background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Novos estilos para a tela principal */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #333;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #4361ee, #3a0ca3);
+  border-radius: 3px;
+}
+
+/* Estilos para notificações */
+.notifications-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-icon {
+  margin-right: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.notification-icon.info {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: #4cc9f0;
+}
+
+.notification-icon.warning {
+  background-color: rgba(247, 37, 133, 0.1);
+  color: #f72585;
+}
+
+.notification-icon.success {
+  background-color: rgba(67, 97, 238, 0.1);
+  color: #4361ee;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.no-notifications {
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
 }
 
 

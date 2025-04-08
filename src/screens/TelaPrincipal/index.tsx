@@ -1,15 +1,87 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, FileText, Users, Settings, Plus } from 'lucide-react';
+import { Package, FileText, Users, Settings, Plus, Clock, AlertTriangle, CheckCircle, Bell } from 'lucide-react';
 import Header from '../../components/sideBar';
+import DashboardCard from '../../components/DashboardCard';
+import StatCounter from '../../components/StatCounter';
+import WelcomeBanner from '../../components/WelcomeBanner';
 import './style.css';
+
+// Interface para notificações
+interface Notification {
+  id: number;
+  message: string;
+  type: 'info' | 'warning' | 'success';
+  time: string;
+}
 
 function Home() {
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [stats, setStats] = useState({
+    totalResources: 0,
+    inUse: 0,
+    overdue: 0,
+    available: 0
+  });
+
+  // Simular carregamento de dados
+  useEffect(() => {
+    // Simular estatísticas
+    const loadStats = setTimeout(() => {
+      setStats({
+        totalResources: 124,
+        inUse: 45,
+        overdue: 8,
+        available: 71
+      });
+    }, 1000);
+
+    // Simular notificações
+    const loadNotifications = setTimeout(() => {
+      setNotifications([
+        {
+          id: 1,
+          message: 'Projetor da Sala 101 foi devolvido',
+          type: 'success',
+          time: '10 minutos atrás'
+        },
+        {
+          id: 2,
+          message: 'Empréstimo do Notebook #15 está atrasado',
+          type: 'warning',
+          time: '1 hora atrás'
+        },
+        {
+          id: 3,
+          message: 'Novo recurso cadastrado: Sala de Reuniões 203',
+          type: 'info',
+          time: '3 horas atrás'
+        }
+      ]);
+    }, 1500);
+
+    return () => {
+      clearTimeout(loadStats);
+      clearTimeout(loadNotifications);
+    };
+  }, []);
 
   // Função para navegar para outras telas
   const navigateTo = (path: string) => {
     navigate(path);
+  };
+
+  // Renderizar ícone baseado no tipo de notificação
+  const renderNotificationIcon = (type: 'info' | 'warning' | 'success') => {
+    switch (type) {
+      case 'info':
+        return <Bell size={16} className="notification-icon info" />;
+      case 'warning':
+        return <AlertTriangle size={16} className="notification-icon warning" />;
+      case 'success':
+        return <CheckCircle size={16} className="notification-icon success" />;
+    }
   };
 
   return (
@@ -23,156 +95,127 @@ function Home() {
         position: 'relative'
       }}>
         <div className="container">
+          {/* Banner de Boas-vindas */}
+          <WelcomeBanner userName="Administrador" />
+
+          {/* Estatísticas */}
           <div className="row mb-4">
             <div className="col-12">
-              <h1 className="h3 mb-3">Bem-vindo ao Sistema de Gerenciamento de Recursos</h1>
-              <p className="text-muted">
-                Gerencie todos os recursos da sua organização em um só lugar. Acesse as principais funcionalidades abaixo.
-              </p>
+              <h2 className="section-title">Visão Geral</h2>
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <StatCounter 
+                title="Total de Recursos" 
+                value={stats.totalResources} 
+                icon={<Package size={20} />} 
+                color="#4361ee" 
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <StatCounter 
+                title="Em Uso" 
+                value={stats.inUse} 
+                icon={<Clock size={20} />} 
+                color="#4cc9f0" 
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <StatCounter 
+                title="Atrasados" 
+                value={stats.overdue} 
+                icon={<AlertTriangle size={20} />} 
+                color="#f72585" 
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <StatCounter 
+                title="Disponíveis" 
+                value={stats.available} 
+                icon={<CheckCircle size={20} />} 
+                color="#4cc9f0" 
+              />
             </div>
           </div>
 
-          <div className="row g-4">
-            {/* Card para Recursos */}
-            <div className="col-md-6 col-lg-3">
-              <div className="card h-100 shadow-sm hover-card">
-                <div className="card-body d-flex flex-column">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="icon-wrapper bg-primary-light rounded-circle p-3 me-3">
-                      <Package className="text-primary" size={24} />
-                    </div>
-                    <h5 className="card-title mb-0">Recursos</h5>
-                  </div>
-                  <p className="card-text text-muted flex-grow-1">
-                    Visualize, cadastre e gerencie todos os recursos disponíveis.
-                  </p>
-                  <div className="d-flex mt-3">
-                    <button 
-                      className="btn btn-outline-primary btn-sm me-2"
-                      onClick={() => navigateTo('/rastreamentoRecursos')}
-                    >
-                      Visualizar
-                    </button>
-                    <button 
-                      className="btn btn-primary btn-sm d-flex align-items-center"
-                      onClick={() => navigateTo('/cadastroRecursos')}
-                    >
-                      <Plus size={16} className="me-1" />
-                      Cadastrar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card para Relatórios */}
-            <div className="col-md-6 col-lg-3">
-              <div className="card h-100 shadow-sm hover-card">
-                <div className="card-body d-flex flex-column">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="icon-wrapper bg-success-light rounded-circle p-3 me-3">
-                      <FileText className="text-success" size={24} />
-                    </div>
-                    <h5 className="card-title mb-0">Relatórios</h5>
-                  </div>
-                  <p className="card-text text-muted flex-grow-1">
-                    Acesse relatórios detalhados sobre o uso de recursos.
-                  </p>
-                  <div className="d-flex mt-3">
-                    <button 
-                      className="btn btn-outline-success btn-sm"
-                      onClick={() => navigateTo('/relatorio')}
-                    >
-                      Acessar Relatórios
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card para Usuários */}
-            <div className="col-md-6 col-lg-3">
-              <div className="card h-100 shadow-sm hover-card">
-                <div className="card-body d-flex flex-column">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="icon-wrapper bg-info-light rounded-circle p-3 me-3">
-                      <Users className="text-info" size={24} />
-                    </div>
-                    <h5 className="card-title mb-0">Usuários</h5>
-                  </div>
-                  <p className="card-text text-muted flex-grow-1">
-                    Gerencie usuários e suas permissões no sistema.
-                  </p>
-                  <div className="d-flex mt-3">
-                    <button 
-                      className="btn btn-outline-info btn-sm"
-                      onClick={() => navigateTo('/CadastroUsuario')}
-                    >
-                      Gerenciar Usuários
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card para Configurações */}
-            <div className="col-md-6 col-lg-3">
-              <div className="card h-100 shadow-sm hover-card">
-                <div className="card-body d-flex flex-column">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="icon-wrapper bg-warning-light rounded-circle p-3 me-3">
-                      <Settings className="text-warning" size={24} />
-                    </div>
-                    <h5 className="card-title mb-0">Configurações</h5>
-                  </div>
-                  <p className="card-text text-muted flex-grow-1">
-                    Personalize as configurações do sistema.
-                  </p>
-                  <div className="d-flex mt-3">
-                    <button 
-                      className="btn btn-outline-warning btn-sm"
-                      onClick={() => navigateTo('/configuracoes')}
-                    >
-                      Ajustar Configurações
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Seção de Atividades Recentes */}
-          <div className="row mt-5">
+          {/* Cards de Acesso Rápido */}
+          <div className="row mb-5">
             <div className="col-12">
-              <div className="card shadow-sm">
-                <div className="card-header bg-white">
-                  <h5 className="mb-0">Atividades Recentes</h5>
-                </div>
-                <div className="card-body">
-                  <div className="list-group">
-                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 className="mb-1">Projetor Laser emprestado</h6>
-                        <p className="text-muted small mb-0">João Silva - Departamento de Marketing</p>
-                      </div>
-                      <span className="badge bg-primary rounded-pill">Hoje</span>
-                    </div>
-                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 className="mb-1">Auditório reservado</h6>
-                        <p className="text-muted small mb-0">Maria Santos - Departamento de RH</p>
-                      </div>
-                      <span className="badge bg-primary rounded-pill">Hoje</span>
-                    </div>
-                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 className="mb-1">Cabo HDMI devolvido</h6>
-                        <p className="text-muted small mb-0">Carlos Oliveira - Departamento de TI</p>
-                      </div>
-                      <span className="badge bg-secondary rounded-pill">Ontem</span>
-                    </div>
+              <h2 className="section-title">Acesso Rápido</h2>
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <DashboardCard
+                title="Recursos"
+                description="Visualize, cadastre e gerencie todos os recursos disponíveis."
+                icon={Package}
+                iconBgColor="bg-primary-light"
+                primaryAction={{
+                  label: "Cadastrar",
+                  onClick: () => navigateTo('/cadastroRecursos')
+                }}
+                secondaryAction={{
+                  label: "Visualizar",
+                  onClick: () => navigateTo('/rastreamentoRecursos')
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <DashboardCard
+                title="Relatórios"
+                description="Acesse e gere relatórios detalhados sobre o uso de recursos."
+                icon={FileText}
+                iconBgColor="bg-success-light"
+                primaryAction={{
+                  label: "Acessar",
+                  onClick: () => navigateTo('/relatorio')
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <DashboardCard
+                title="Usuários"
+                description="Gerencie os usuários que podem acessar o sistema."
+                icon={Users}
+                iconBgColor="bg-warning-light"
+                primaryAction={{
+                  label: "Cadastrar",
+                  onClick: () => navigateTo('/CadastroUsuario')
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-lg-3 mb-4">
+              <DashboardCard
+                title="Configurações"
+                description="Personalize as configurações do sistema conforme necessário."
+                icon={Settings}
+                iconBgColor="bg-info-light"
+                primaryAction={{
+                  label: "Configurar",
+                  onClick: () => navigateTo('/configuracoes')
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Notificações Recentes */}
+          <div className="row">
+            <div className="col-12">
+              <h2 className="section-title">Notificações Recentes</h2>
+              <div className="notifications-container">
+                {notifications.length === 0 ? (
+                  <div className="no-notifications">
+                    <p>Nenhuma notificação recente</p>
                   </div>
-                </div>
+                ) : (
+                  notifications.map(notification => (
+                    <div key={notification.id} className={`notification-item ${notification.type}`}>
+                      {renderNotificationIcon(notification.type)}
+                      <div className="notification-content">
+                        <p className="notification-message">{notification.message}</p>
+                        <span className="notification-time">{notification.time}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
