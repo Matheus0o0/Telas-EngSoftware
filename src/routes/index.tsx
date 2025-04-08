@@ -9,6 +9,7 @@ import Historico from '../screens/Historico';
 import RegistroEmprestimo from '../screens/RegistroEmprestimo';
 import RegistroDevolucao from '../screens/RegistroDevolucao';
 import RastreamentoRecursos from '../screens/RastreamentoRecursos';
+import CadastroRecursos from '../screens/CadastroRecursos';
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Route path="/RegistroDevolucao" element={<RegistroDevolucao />} />
       <Route path="/RegistroDevolução" element={<RegistroDevolucao />} />
       <Route path="/rastreamentoRecursos" element={<RastreamentoRecursos />} />
+      <Route path="/cadastroRecursos" element={<CadastroRecursos />} />
     </Routes>
   );
 };

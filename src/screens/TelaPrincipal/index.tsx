@@ -1,114 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Plus, Eye, Download, Trash, ArrowLeft } from 'lucide-react';
-import '../../styles/globalColors.css';
-import './style.css';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Package, FileText, Users, Settings, Plus } from 'lucide-react';
 import Header from '../../components/sideBar';
+import './style.css';
 
+function Home() {
+  const navigate = useNavigate();
 
-
-function CatalogoRecursos() {
-  // Estado para a lista de recursos
-  const [recursos, setRecursos] = useState([
-    { id: 1, nome: 'Auditório', categoria: 'Área', quantidadeTotal: 1, quantidadeEmUso: 1 },
-    { id: 2, nome: 'Projetor Laser', categoria: 'Equipamento', quantidadeTotal: 10, quantidadeEmUso: 2 },
-    { id: 3, nome: 'Cabo HDMI', categoria: 'Equipamento', quantidadeTotal: 22, quantidadeEmUso: 3 },
-    { id: 4, nome: 'Câmera', categoria: 'Equipamento', quantidadeTotal: 3, quantidadeEmUso: 0 },
-    { id: 5, nome: 'Caixa de Som', categoria: 'Equipamento', quantidadeTotal: 6, quantidadeEmUso: 1 },
-  ]);
-
-  // Estado para controlar a visibilidade do overlay de cadastro
-  const [mostrarOverlay, setMostrarOverlay] = useState(false);
-
-  // Estados para o formulário de cadastro de recurso
-  const [nome, setNome] = useState<string>('');
-  const [descricao, setDescricao] = useState<string>('');
-  const [tipoUso, setTipoUso] = useState<string>('');
-  const [reutilizavel, setReutilizavel] = useState<boolean>(false);
-  const [imagens, setImagens] = useState<File[]>([]);
-  const [categoria, setCategoria] = useState<string>('');
-  const [quantidade, setQuantidade] = useState<number>(0);
-
-  // Lista de opções para Tipo de Uso e Categoria
-  const tiposUso = ['Uso Interno', 'Uso Externo', 'Uso Geral'];
-  const categorias = ['Equipamento', 'Material', 'Sala', 'Outros'];
-
-  // Função para abrir o overlay de cadastro
-  const abrirOverlay = () => {
-    setMostrarOverlay(true);
+  // Função para navegar para outras telas
+  const navigateTo = (path: string) => {
+    navigate(path);
   };
-
-  // Função para fechar o overlay de cadastro
-  const fecharOverlay = () => {
-    setMostrarOverlay(false);
-    resetarFormulario();
-  };
-
-  // Função para resetar o formulário
-  const resetarFormulario = () => {
-    setNome('');
-    setDescricao('');
-    setTipoUso('');
-    setReutilizavel(false);
-    setImagens([]);
-    setCategoria('');
-    setQuantidade(0);
-  };
-
-  // Função para adicionar um novo recurso
-  const adicionarRecurso = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      nome.trim() === '' ||
-      categoria.trim() === '' ||
-      quantidade <= 0
-    ) {
-      alert('Preencha todos os campos obrigatórios!');
-      return;
-    }
-
-    const novoId = recursos.length > 0 ? recursos[recursos.length - 1].id + 1 : 1;
-    const novoRecurso = {
-      id: novoId,
-      nome,
-      categoria,
-      quantidadeTotal: quantidade,
-      quantidadeEmUso: 0, // Inicialmente, nenhum recurso está em uso
-    };
-
-    setRecursos([...recursos, novoRecurso]);
-    fecharOverlay();
-  };
-
-  // Função para remover um recurso
-  const removerRecurso = (id: number) => {
-    setRecursos(recursos.filter((recurso) => recurso.id !== id));
-  };
-
-  // Função para lidar com o upload de imagens
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
-      setImagens(files);
-    }
-  };
-
-  // Efeito para manipular o comportamento do overlay
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        fecharOverlay();
-      }
-    };
-
-    if (mostrarOverlay) {
-      document.addEventListener('keydown', handleEscapeKey);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [mostrarOverlay]);
 
   return (
     <div className="app-container">
@@ -120,249 +22,164 @@ function CatalogoRecursos() {
         padding: '2rem',
         position: 'relative'
       }}>
-        <div className="bg-light p-4 rounded shadow-sm">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-12 col-lg-10">
-                <div className="card shadow">
-                  <div className="card-body">
-                    {/* Título */}
-                    <h1 className="h4 mb-4">CATÁLOGO DE RECURSOS</h1>
+        <div className="container">
+          <div className="row mb-4">
+            <div className="col-12">
+              <h1 className="h3 mb-3">Bem-vindo ao Sistema de Gerenciamento de Recursos</h1>
+              <p className="text-muted">
+                Gerencie todos os recursos da sua organização em um só lugar. Acesse as principais funcionalidades abaixo.
+              </p>
+            </div>
+          </div>
 
-                    {/* Barra de Pesquisa */}
-                    <div className="mb-4">
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Procure por..."
-                        />
-                        <button className="btn btn-primary" type="button">
-                          <Search size={18} />
-                        </button>
-                      </div>
+          <div className="row g-4">
+            {/* Card para Recursos */}
+            <div className="col-md-6 col-lg-3">
+              <div className="card h-100 shadow-sm hover-card">
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="icon-wrapper bg-primary-light rounded-circle p-3 me-3">
+                      <Package className="text-primary" size={24} />
                     </div>
+                    <h5 className="card-title mb-0">Recursos</h5>
+                  </div>
+                  <p className="card-text text-muted flex-grow-1">
+                    Visualize, cadastre e gerencie todos os recursos disponíveis.
+                  </p>
+                  <div className="d-flex mt-3">
+                    <button 
+                      className="btn btn-outline-primary btn-sm me-2"
+                      onClick={() => navigateTo('/rastreamentoRecursos')}
+                    >
+                      Visualizar
+                    </button>
+                    <button 
+                      className="btn btn-primary btn-sm d-flex align-items-center"
+                      onClick={() => navigateTo('/cadastroRecursos')}
+                    >
+                      <Plus size={16} className="me-1" />
+                      Cadastrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                    {/* Lista de Recursos */}
-                    <div className="table-responsive">
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>NOME</th>
-                            <th>CATEGORIA</th>
-                            <th>QUANTIDADE TOTAL</th>
-                            <th>QUANTIDADE EM USO</th>
-                            <th>AÇÕES</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {recursos.map((recurso) => (
-                            <tr key={recurso.id}>
-                              <td>{recurso.nome}</td>
-                              <td>{recurso.categoria}</td>
-                              <td>{recurso.quantidadeTotal}</td>
-                              <td>
-                                {recurso.quantidadeEmUso}/{recurso.quantidadeTotal}
-                              </td>
-                              <td>
-                                <button
-                                  className="btn btn-danger btn-sm"
-                                  onClick={() => removerRecurso(recurso.id)}
-                                >
-                                  <Trash size={16} />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+            {/* Card para Relatórios */}
+            <div className="col-md-6 col-lg-3">
+              <div className="card h-100 shadow-sm hover-card">
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="icon-wrapper bg-success-light rounded-circle p-3 me-3">
+                      <FileText className="text-success" size={24} />
                     </div>
+                    <h5 className="card-title mb-0">Relatórios</h5>
+                  </div>
+                  <p className="card-text text-muted flex-grow-1">
+                    Acesse relatórios detalhados sobre o uso de recursos.
+                  </p>
+                  <div className="d-flex mt-3">
+                    <button 
+                      className="btn btn-outline-success btn-sm"
+                      onClick={() => navigateTo('/relatorio')}
+                    >
+                      Acessar Relatórios
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                    {/* Botões e Links */}
-                    <div className="mt-4 d-flex justify-content-between align-items-center">
-                      <button
-                        className="btn btn-primary d-flex align-items-center gap-2"
-                        onClick={abrirOverlay}
-                      >
-                        <Plus size={18} />
-                        ADICIONAR RECURSO
-                      </button>
-
-                      <a href="#" className="text-primary text-decoration-none">
-                        <Eye size={18} className="me-2" />
-                        VISUALIZAR MAIS REGISTROS
-                      </a>
-
-                      <button className="btn btn-outline-primary d-flex align-items-center gap-2">
-                        <Download size={18} />
-                        EXPORTAR RELATÓRIO DE RECURSOS
-                      </button>
+            {/* Card para Usuários */}
+            <div className="col-md-6 col-lg-3">
+              <div className="card h-100 shadow-sm hover-card">
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="icon-wrapper bg-info-light rounded-circle p-3 me-3">
+                      <Users className="text-info" size={24} />
                     </div>
+                    <h5 className="card-title mb-0">Usuários</h5>
+                  </div>
+                  <p className="card-text text-muted flex-grow-1">
+                    Gerencie usuários e suas permissões no sistema.
+                  </p>
+                  <div className="d-flex mt-3">
+                    <button 
+                      className="btn btn-outline-info btn-sm"
+                      onClick={() => navigateTo('/CadastroUsuario')}
+                    >
+                      Gerenciar Usuários
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card para Configurações */}
+            <div className="col-md-6 col-lg-3">
+              <div className="card h-100 shadow-sm hover-card">
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="icon-wrapper bg-warning-light rounded-circle p-3 me-3">
+                      <Settings className="text-warning" size={24} />
+                    </div>
+                    <h5 className="card-title mb-0">Configurações</h5>
+                  </div>
+                  <p className="card-text text-muted flex-grow-1">
+                    Personalize as configurações do sistema.
+                  </p>
+                  <div className="d-flex mt-3">
+                    <button 
+                      className="btn btn-outline-warning btn-sm"
+                      onClick={() => navigateTo('/configuracoes')}
+                    >
+                      Ajustar Configurações
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Overlay de Cadastro de Recurso */}
-          {mostrarOverlay && (
-            <div className="overlay">
-              <div className="overlay-content">
-                <div className="card shadow">
-                  <div className="card-body">
-                    {/* Header */}
-                    <div className="d-flex align-items-center gap-3 mb-4">
-                      <button
-                        className="btn btn-link p-0 text-dark"
-                        onClick={fecharOverlay}
-                      >
-                        <ArrowLeft size={24} />
-                      </button>
-                      <h1 className="h4 mb-0">CADASTRO DE RECURSO</h1>
+          {/* Seção de Atividades Recentes */}
+          <div className="row mt-5">
+            <div className="col-12">
+              <div className="card shadow-sm">
+                <div className="card-header bg-white">
+                  <h5 className="mb-0">Atividades Recentes</h5>
+                </div>
+                <div className="card-body">
+                  <div className="list-group">
+                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 className="mb-1">Projetor Laser emprestado</h6>
+                        <p className="text-muted small mb-0">João Silva - Departamento de Marketing</p>
+                      </div>
+                      <span className="badge bg-primary rounded-pill">Hoje</span>
                     </div>
-
-                    {/* Formulário */}
-                    <form onSubmit={adicionarRecurso}>
-                      {/* Nome */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">NOME</label>
-                        <input
-                          type="text"
-                          placeholder="Digite o nome do recurso"
-                          value={nome}
-                          onChange={(e) => setNome(e.target.value)}
-                          className="form-control"
-                          required
-                        />
+                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 className="mb-1">Auditório reservado</h6>
+                        <p className="text-muted small mb-0">Maria Santos - Departamento de RH</p>
                       </div>
-
-                      {/* Descrição */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">DESCRIÇÃO</label>
-                        <textarea
-                          placeholder="Digite a descrição do recurso"
-                          value={descricao}
-                          onChange={(e) => setDescricao(e.target.value)}
-                          className="form-control"
-                          rows={3}
-                        />
+                      <span className="badge bg-primary rounded-pill">Hoje</span>
+                    </div>
+                    <div className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 className="mb-1">Cabo HDMI devolvido</h6>
+                        <p className="text-muted small mb-0">Carlos Oliveira - Departamento de TI</p>
                       </div>
-
-                      {/* Tipo de Uso */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">TIPO DE USO</label>
-                        <select
-                          className="form-select"
-                          value={tipoUso}
-                          onChange={(e) => setTipoUso(e.target.value)}
-                          required
-                        >
-                          <option value="">Selecione um tipo de uso</option>
-                          {tiposUso.map((tipo, index) => (
-                            <option key={index} value={tipo}>
-                              {tipo}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Reutilizável */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">REUTILIZÁVEL</label>
-                        <div>
-                          <div className="form-check form-check-inline">
-                            <input
-                              type="radio"
-                              className="form-check-input"
-                              id="reutilizavelSim"
-                              value="true"
-                              checked={reutilizavel}
-                              onChange={() => setReutilizavel(true)}
-                            />
-                            <label className="form-check-label" htmlFor="reutilizavelSim">Sim</label>
-                          </div>
-                          <div className="form-check form-check-inline">
-                            <input
-                              type="radio"
-                              className="form-check-input"
-                              id="reutilizavelNao"
-                              value="false"
-                              checked={!reutilizavel}
-                              onChange={() => setReutilizavel(false)}
-                            />
-                            <label className="form-check-label" htmlFor="reutilizavelNao">Não</label>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Adicionar Imagens */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">ADICIONAR IMAGENS</label>
-                        <input
-                          type="file"
-                          className="form-control"
-                          multiple
-                          onChange={handleImageUpload}
-                        />
-                      </div>
-
-                      {/* Categoria */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">CATEGORIA</label>
-                        <select
-                          className="form-select"
-                          value={categoria}
-                          onChange={(e) => setCategoria(e.target.value)}
-                          required
-                        >
-                          <option value="">Selecione uma categoria</option>
-                          {categorias.map((cat, index) => (
-                            <option key={index} value={cat}>
-                              {cat}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Quantidade */}
-                      <div className="mb-3">
-                        <label className="form-label small text-secondary">QUANTIDADE</label>
-                        <input
-                          type="number"
-                          placeholder="Digite a quantidade"
-                          value={quantidade}
-                          onChange={(e) => setQuantidade(Number(e.target.value))}
-                          className="form-control"
-                          required
-                        />
-                      </div>
-
-                      {/* Botões */}
-                      <div className="mt-4 d-flex justify-content-end gap-2">
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={fecharOverlay}
-                        >
-                          CANCELAR
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn btn-primary"
-                        >
-                          SALVAR
-                        </button>
-                      </div>
-                    </form>
+                      <span className="badge bg-secondary rounded-pill">Ontem</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </main>
     </div>
   );
 }
 
-export default CatalogoRecursos;
+export default Home;
