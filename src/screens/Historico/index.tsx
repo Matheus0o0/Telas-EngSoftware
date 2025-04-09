@@ -15,9 +15,7 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
-  Info,
-  Plus,
-  RefreshCw
+  Info
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/globalColors.css';
@@ -40,7 +38,6 @@ interface HistoricoRegistro {
 function Historico() {
   const navigate = useNavigate();
   
-  
   // Estados para filtros
   const [filtroUsuario, setFiltroUsuario] = useState<string>('');
   const [filtroRecurso, setFiltroRecurso] = useState<string>('');
@@ -55,24 +52,18 @@ function Historico() {
   const [paginaAtual, setPaginaAtual] = useState<number>(1);
   const itensPorPagina = 10;
   
-  // Estado para indicar carregamento (simulação)
+  // Estado para indicar carregamento
   const [carregando, setCarregando] = useState<boolean>(true);
   
-  // Estado para mostrar mensagem de modo simulação
-  const [mostrarInfoSimulacao, setMostrarInfoSimulacao] = useState<boolean>(true);
-  
-  // Dados de exemplo para o histórico (simulação de dados que viriam do backend)
+  // Dados de exemplo para o histórico
   const [registros, setRegistros] = useState<HistoricoRegistro[]>([]);
-
-  const navegarParaRegistroEmprestimo = () => {
-    navigate('/registroEmprestimo');
-  };
   
   // Função para navegar para a página de registro de devolução
   const navegarParaRegistroDevolucao = (id: number) => {
     navigate(`/registroDevolucao/${id}`);
   };
-  // Simulação de chamada à API
+
+  // Carregamento de dados
   useEffect(() => {
     // Simulando um tempo de carregamento
     setCarregando(true);
@@ -180,7 +171,7 @@ function Historico() {
     }, 500);
   };
 
-  // Lista de categorias disponíveis (simulação de dados que viriam do backend)
+  // Lista de categorias disponíveis
   const categorias = ['Equipamento', 'Material', 'Área', 'Outros'];
   
   // Lista de status disponíveis
@@ -190,7 +181,7 @@ function Historico() {
     { value: 'atrasado', label: 'Atrasado' }
   ];
 
-  // Função para filtrar os registros (simulação de filtro que seria feito no backend)
+  // Função para filtrar os registros
   const filtrarRegistros = () => {
     return registros.filter(registro => {
       // Filtro por usuário
@@ -247,15 +238,14 @@ function Historico() {
     setFiltroStatus('');
   };
 
-  // Função para exportar os dados (simulação)
+  // Função para exportar os dados
   const exportarDados = (formato: 'csv' | 'pdf' | 'excel') => {
     // Simulação de exportação
     setCarregando(true);
     
     setTimeout(() => {
       setCarregando(false);
-      console.log(`Simulação: Exportando dados em formato ${formato}`);
-      alert(`Simulação: Os dados foram exportados em formato ${formato}. Em uma implementação real, isso seria processado pelo backend.`);
+      console.log(`Exportando dados em formato ${formato}`);
     }, 1000);
   };
 
@@ -294,49 +284,14 @@ function Historico() {
         position: 'relative'
       }}>
         <div className="container">
-          {/* Alerta de modo simulação */}
-          {mostrarInfoSimulacao && (
-            <div className="alert alert-info alert-dismissible fade show mb-4 d-flex align-items-center" role="alert">
-              <Info size={20} className="me-2" />
-              <div>
-                <strong>Modo de Simulação:</strong> Esta é uma versão de demonstração com dados fictícios. 
-                Em produção, os dados serão carregados do backend.
-              </div>
-              <button 
-                type="button" 
-                className="btn-close" 
-                onClick={() => setMostrarInfoSimulacao(false)}
-                aria-label="Fechar"
-              ></button>
-            </div>
-          )}
-          
           <div className="card shadow">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h1 className="h4 mb-0">HISTÓRICO DE RECURSOS</h1>
-                
-                <div className="d-flex gap-2">
-                  <button 
-                    className="btn btn-outline-primary d-flex align-items-center gap-2"
-                    onClick={() => navigate('/RastreamentoRecursos')}
-                  >
-                    <RefreshCw size={18} />
-                    RASTREAMENTO ATUAL
-                  </button>
-                  
-                  <button 
-                    className="btn btn-primary d-flex align-items-center gap-2"
-                    onClick={navegarParaRegistroEmprestimo}
-                  >
-                    <Plus size={18} />
-                    NOVO EMPRÉSTIMO
-                  </button>
-                </div>
               </div>
               
               <p className="text-muted mb-4">
-                Visualize o histórico completo de todos os empréstimos de recursos. Para verificar apenas os recursos em uso atualmente, acesse a página de Rastreamento.
+                Visualize o histórico completo de todos os empréstimos de recursos.
               </p>
               
               {/* Barra de pesquisa e botões */}
