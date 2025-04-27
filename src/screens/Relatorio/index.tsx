@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Printer, Filter, Calendar, Package, User, FileText, ChevronDown, ChevronUp, Search, BarChart } from 'lucide-react';
+import { ArrowLeft, Printer, Search, BarChart, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/globalColors.css';
 import Header from '../../components/sideBar';
@@ -25,21 +25,9 @@ function App() {
   const [relatorios, setRelatorios] = useState<Relatorio[]>([]);
   const [filteredRelatorios, setFilteredRelatorios] = useState<Relatorio[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  
-  
-  const [usuario, setUsuario] = useState<string>('');
-  const [recurso, setRecurso] = useState<string>('');
-  const [categoria, setCategoria] = useState<string>('');
-  const [tipoAcao, setTipoAcao] = useState<string>('');
-  const [dataInicio, setDataInicio] = useState<string>('');
-  const [dataFim, setDataFim] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
- 
   useEffect(() => {
-    
     setLoading(true);
     
     setTimeout(() => {
@@ -117,27 +105,13 @@ function App() {
     }, 1000);
   }, []);
 
-  
-
-  // Função para limpar filtros
-  const limparFiltros = () => {
-    setUsuario('');
-    setRecurso('');
-    setCategoria('');
-    setTipoAcao('');
-    setDataInicio('');
-    setDataFim('');
-    setStatus('');
-    setFilteredRelatorios(relatorios);
-  };
-
   // Função para pesquisa rápida
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
     
     if (query.trim() === '') {
-      aplicarFiltros();
+      setFilteredRelatorios(relatorios);
       return;
     }
     
@@ -149,14 +123,6 @@ function App() {
     );
     
     setFilteredRelatorios(searchResults);
-  };
-
-  // Função para validar a data
-  const isValidDate = (dateString: string): boolean => {
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(dateString)) return false;
-    const date = new Date(dateString);
-    return date instanceof Date && !isNaN(date.getTime());
   };
 
   // Função para imprimir o relatório
@@ -228,40 +194,23 @@ function App() {
               </button>
             </div>
 
-            {/* Barra de pesquisa e filtros */}
+            {/* Barra de pesquisa simplificada */}
             <div className="mb-4">
-              <div className="d-flex gap-2 mb-3">
-                <div className="input-group">
-                  <span className="input-group-text bg-light">
-                    <Search size={18} />
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Pesquisar por usuário, recurso, categoria..."
-                    value={searchQuery}
-                    onChange={handleSearch}
-                  />
-                </div>
-                <button
-                  className="btn btn-outline-secondary d-flex align-items-center gap-2"
-                  onClick={() => setShowFilters(!showFilters)}
-                >
-                  <Filter size={18} />
-                  Filtros
-                  {showFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                </button>
+              <div className="input-group">
+                <span className="input-group-text bg-light">
+                  <Search size={18} />
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Pesquisar por usuário, recurso, categoria..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
               </div>
-
-              {/* Filtros avançados - mantido igual */}
-              {showFilters && (
-                <div className="card mb-3">
-                  {/* Conteúdo dos filtros permanece igual */}
-                </div>
-              )}
             </div>
 
-            {/* Resumo do relatório - MELHORADO */}
+            {/* Resumo do relatório */}
             {!loading && filteredRelatorios.length > 0 && (
               <div className="report-summary mb-4">
                 <div className="summary-header">
@@ -350,7 +299,7 @@ function App() {
                   <FileText size={48} className="text-muted mb-3" />
                   <h5>Nenhum resultado encontrado</h5>
                   <p className="text-muted">
-                    Tente ajustar os filtros ou realizar uma nova pesquisa.
+                    Tente realizar uma nova pesquisa.
                   </p>
                 </div>
               ) : (
