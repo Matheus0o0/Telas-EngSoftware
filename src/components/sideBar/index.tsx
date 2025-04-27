@@ -54,6 +54,12 @@ const Header = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/CadastroCategorias" className="nav-link">
+                  <UserPlus className="nav-icon" />
+                  <span>Cadastro Categoria</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/configuracoes" className="nav-link">
                   <Settings className="nav-icon" />
                   <span>Configurações</span>

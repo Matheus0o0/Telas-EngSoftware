@@ -10,6 +10,7 @@ import RegistroEmprestimo from '../screens/RegistroEmprestimo';
 import RegistroDevolucao from '../screens/RegistroDevolucao';
 import RastreamentoRecursos from '../screens/RastreamentoRecursos';
 import CadastroRecursos from '../screens/CadastroRecursos';
+import CadastroCategorias from '../screens/CadastroCategorias';
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
       <Route path="/RegistroDevolução" element={<RegistroDevolucao />} />
       <Route path="/rastreamentoRecursos" element={<RastreamentoRecursos />} />
       <Route path="/cadastroRecursos" element={<CadastroRecursos />} />
+      <Route path="/cadastroCategorias" element={<CadastroCategorias />} />
     </Routes>
   );
 };
