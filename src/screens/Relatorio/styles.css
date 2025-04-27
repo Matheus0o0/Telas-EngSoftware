@@ -1,0 +1,191 @@
+/* Estilos para a tela de relatório */
+
+/* Estilos para os badges de status */
+.badge {
+  padding: 0.5em 0.75em;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+/* Estilos para a tabela */
+.table {
+  font-size: 0.9rem;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Estilos para o resumo do relatório - NOVO */
+.report-summary {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.total-count {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.summary-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.stat-percent {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #495057;
+  background-color: #e9ecef;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.summary-chart {
+  margin-top: 1rem;
+}
+
+.chart-bar {
+  height: 24px;
+  background-color: #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.chart-segment {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.chart-em-uso {
+  background-color: #0d6efd;
+}
+
+.chart-devolvido {
+  background-color: #198754;
+}
+
+.chart-atrasado {
+  background-color: #dc3545;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-em-uso {
+  background-color: #0d6efd;
+}
+
+.legend-devolvido {
+  background-color: #198754;
+}
+
+.legend-atrasado {
+  background-color: #dc3545;
+}
+
+.legend-text {
+  color: #495057;
+}
+
+/* Estilos para impressão */
+@media print {
+  .app-sidebar, .top-title-bar, .btn, .input-group, .form-select, .card-body > .d-flex {
+    display: none !important;
+  }
+  
+  .app-content {
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .card-body {
+    padding: 0 !important;
+  }
+  
+  .table {
+    width: 100% !important;
+  }
+  
+  .table th, .table td {
+    padding: 0.5rem !important;
+  }
+}
