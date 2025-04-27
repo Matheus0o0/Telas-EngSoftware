@@ -291,7 +291,7 @@ function RegistroUsuario() {
         {/* Seção de Imagem/Informações (visível apenas em telas médias e maiores) */}
         <div className="col-md-6 bg-primary text-white d-none d-md-flex flex-column justify-content-center registro-info-section">
           <div className="text-center mb-4">
-            <img src="/rastro-logo-white.png" alt="Rastro" className="img-fluid mb-3" style={{ maxWidth: '180px' }} />
+            <img src="/rastro.png" alt="Rastro" className="img-fluid mb-3" style={{ maxWidth: '180px' }} />
             <h1 className="display-6 fw-bold mb-3">Bem-vindo ao Rastro</h1>
             <p className="lead mb-4">
               Sistema de gerenciamento e rastreamento de recursos para sua organização

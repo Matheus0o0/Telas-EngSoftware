@@ -11,7 +11,7 @@ const Header = () => {
         <div className="sidebar-container">
           {/* Logo */}
           <div className="logo">
-            <img src="/rastro-logo-white.png" alt="Rastro" className="logo-img" />
+            <img src="/rastro.png" alt="Rastro" className="logo-img" />
           </div>
 
           {/* Navigation Menu */}

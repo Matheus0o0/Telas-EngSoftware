@@ -82,7 +82,7 @@ function App() {
         {/* Seção de Imagem/Informações (visível apenas em telas médias e maiores) */}
         <div className="col-md-6 bg-primary text-white d-none d-md-flex flex-column justify-content-center p-5">
           <div className="text-center mb-5">
-            <img src="/rastro-logo-white.png" alt="Rastro" className="img-fluid mb-4" style={{ maxWidth: '200px' }} />
+            <img src="/rastro.png" alt="Rastro" className="img-fluid mb-4" style={{ maxWidth: '200px' }} />
             <h1 className="display-5 fw-bold mb-4">Bem-vindo ao Rastro</h1>
             <p className="lead mb-5">
               Sistema de gerenciamento e rastreamento de recursos para sua organização
