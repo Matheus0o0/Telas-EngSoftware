@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Save, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/sideBar';
@@ -7,7 +7,13 @@ import './styles.css';
 function CadastroRecursos() {
   const navigate = useNavigate();
 
-  // Estados para o formulário de cadastro de recurso
+
+  const categoriasFixas = ['Equipamento', 'Material', 'Sala'];
+
+
+  const [categoriasDinamicas, setCategoriasDinamicas] = useState<string[]>([]);
+
+
   const [nome, setNome] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
   const [tipoUso, setTipoUso] = useState<string>('');
@@ -17,11 +23,15 @@ function CadastroRecursos() {
   const [quantidade, setQuantidade] = useState<number>(1);
   const [localizacao, setLocalizacao] = useState<string>('');
 
-  // Lista de opções para Tipo de Uso e Categoria
+  // Lista de opções para Tipo de Uso
   const tiposUso = ['Uso Interno', 'Uso Externo', 'Uso Geral'];
-  const categorias = ['Equipamento', 'Material', 'Sala', 'Outros'];
 
-  // Função para lidar com o upload de imagens
+  // Carregar categorias dinâmicas salvas no localStorage
+  useEffect(() => {
+    const storedCategorias = JSON.parse(localStorage.getItem('categorias') || '[]');
+    setCategoriasDinamicas(storedCategorias);
+  }, []);
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
@@ -29,7 +39,6 @@ function CadastroRecursos() {
     }
   };
 
-  // Função para resetar o formulário
   const resetarFormulario = () => {
     setNome('');
     setDescricao('');
@@ -41,20 +50,14 @@ function CadastroRecursos() {
     setLocalizacao('');
   };
 
-  // Função para adicionar um novo recurso
   const adicionarRecurso = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      nome.trim() === '' ||
-      categoria.trim() === '' ||
-      quantidade <= 0
-    ) {
+    if (nome.trim() === '' || categoria.trim() === '' || quantidade <= 0) {
       alert('Preencha todos os campos obrigatórios!');
       return;
     }
 
-    // Aqui você adicionaria a lógica para salvar o recurso no backend
     console.log('Recurso cadastrado:', {
       nome,
       descricao,
@@ -70,7 +73,6 @@ function CadastroRecursos() {
     resetarFormulario();
   };
 
-  // Função para voltar à tela anterior
   const voltarParaHome = () => {
     navigate('/TelaPrincipal');
   };
@@ -90,21 +92,20 @@ function CadastroRecursos() {
             <div className="col-12 col-lg-10">
               <div className="card shadow">
                 <div className="card-body">
-                  {/* Cabeçalho com botão de voltar e título */}
+
+                  {/* Cabeçalho */}
                   <div className="d-flex align-items-center gap-3 mb-4">
-                    <button 
-                      className="btn btn-link p-0 text-dark"
-                      onClick={voltarParaHome}
-                    >
+                    <button className="btn btn-link p-0 text-dark" onClick={voltarParaHome}>
                       <ArrowLeft size={24} />
                     </button>
                     <h1 className="h4 mb-0">CADASTRO DE RECURSO</h1>
                   </div>
 
-                  {/* Formulário de Cadastro */}
+                  {/* Formulário */}
                   <form onSubmit={adicionarRecurso}>
                     <div className="row g-3">
-                      {/* Nome do Recurso */}
+                      
+                      {/* Nome */}
                       <div className="col-md-6">
                         <label className="form-label small text-secondary">NOME DO RECURSO</label>
                         <input
@@ -127,7 +128,7 @@ function CadastroRecursos() {
                           required
                         >
                           <option value="">Selecione uma categoria</option>
-                          {categorias.map((cat, index) => (
+                          {[...categoriasFixas, ...categoriasDinamicas].map((cat, index) => (
                             <option key={index} value={cat}>{cat}</option>
                           ))}
                         </select>
@@ -201,7 +202,7 @@ function CadastroRecursos() {
                         </div>
                       </div>
 
-                      {/* Upload de Imagens */}
+                      {/* Upload de imagens */}
                       <div className="col-12">
                         <label className="form-label small text-secondary">IMAGENS DO RECURSO</label>
                         <input
@@ -216,7 +217,7 @@ function CadastroRecursos() {
                         </small>
                       </div>
 
-                      {/* Prévia das Imagens */}
+                      {/* Prévia das imagens */}
                       {imagens.length > 0 && (
                         <div className="col-12 mt-3">
                           <label className="form-label small text-secondary">IMAGENS SELECIONADAS</label>
@@ -247,7 +248,7 @@ function CadastroRecursos() {
                       )}
                     </div>
 
-                    {/* Botões de Ação */}
+                    {/* Botões */}
                     <div className="mt-4 d-flex justify-content-end gap-2">
                       <button
                         type="button"
@@ -271,7 +272,9 @@ function CadastroRecursos() {
                         SALVAR
                       </button>
                     </div>
+
                   </form>
+
                 </div>
               </div>
             </div>
@@ -283,3 +286,4 @@ function CadastroRecursos() {
 }
 
 export default CadastroRecursos;
+

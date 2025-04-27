@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Save, X } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/sideBar';
 import './styles.css';
 
 function CadastroCategorias() {
   const navigate = useNavigate();
-
-  // Estados para o formulário de cadastro de categoria
   const [nome, setNome] = useState<string>('');
 
-  // Função para resetar o formulário
   const resetarFormulario = () => {
     setNome('');
   };
 
-  // Função para adicionar um novo recurso
   const adicionarCategoria = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      nome.trim() === ''
-    ) {
+    if (nome.trim() === '') {
       alert('Preencha todos os campos obrigatórios!');
       return;
     }
 
-    // Aqui você adicionaria a lógica para salvar a categoria no backend
-    console.log('Categoria cadastrada:', {
-      nome
-    });
+    // Pega categorias já existentes no localStorage
+    const categoriasSalvas = JSON.parse(localStorage.getItem('categorias') || '[]');
 
+    // Verifica se a categoria já existe
+    if (categoriasSalvas.includes(nome)) {
+      alert('Esta categoria já foi cadastrada!');
+      return;
+    }
+
+    // Adiciona a nova categoria
+    const novasCategorias = [...categoriasSalvas, nome];
+
+    // Salva de volta no localStorage
+    localStorage.setItem('categorias', JSON.stringify(novasCategorias));
+
+    console.log('Categoria cadastrada:', { nome });
     alert('Categoria cadastrada com sucesso!');
     resetarFormulario();
   };
@@ -54,21 +59,15 @@ function CadastroCategorias() {
             <div className="col-12 col-lg-10">
               <div className="card shadow">
                 <div className="card-body">
-                  {/* Cabeçalho com botão de voltar e título */}
                   <div className="d-flex align-items-center gap-3 mb-4">
-                    <button 
-                      className="btn btn-link p-0 text-dark"
-                      onClick={voltarParaHome}
-                    >
+                    <button className="btn btn-link p-0 text-dark" onClick={voltarParaHome}>
                       <ArrowLeft size={24} />
                     </button>
                     <h1 className="h4 mb-0">CADASTRO DE CATEGORIA</h1>
                   </div>
 
-                  {/* Formulário de Cadastro */}
                   <form onSubmit={adicionarCategoria}>
                     <div className="row g-3">
-                      {/* Nome da categoria */}
                       <div className="col-md-6">
                         <label className="form-label small text-secondary">NOME DA CATEGORIA</label>
                         <input
@@ -82,31 +81,20 @@ function CadastroCategorias() {
                       </div>
                     </div>
 
-                    {/* Botões de Ação */}
                     <div className="mt-4 d-flex justify-content-end gap-2">
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={resetarFormulario}
-                      >
+                      <button type="button" className="btn btn-outline-secondary" onClick={resetarFormulario}>
                         LIMPAR
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={voltarParaHome}
-                      >
+                      <button type="button" className="btn btn-danger" onClick={voltarParaHome}>
                         CANCELAR
                       </button>
-                      <button
-                        type="submit"
-                        className="btn btn-primary d-flex align-items-center gap-2"
-                      >
+                      <button type="submit" className="btn btn-primary d-flex align-items-center gap-2">
                         <Save size={18} />
                         SALVAR
                       </button>
                     </div>
                   </form>
+
                 </div>
               </div>
             </div>

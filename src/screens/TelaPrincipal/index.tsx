@@ -30,10 +30,10 @@ function Home() {
     // Simular estatísticas
     const loadStats = setTimeout(() => {
       setStats({
-        totalResources: 124,
-        inUse: 45,
-        overdue: 8,
-        available: 71
+        totalResources: 15,
+        inUse: 4,
+        overdue: 0,
+        available: 11
       });
     }, 1000);
 
